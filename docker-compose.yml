@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+    gateway:
+        build:
+            context: gateway/docker
+            dockerfile: development/nginx/Dockerfile
+        ports:
+            - "8080:8080"
+
+    bot:
+        build:
+            context: bot/docker
+            dockerfile: development/nginx/Dockerfile
+        volumes:
+            - ./bot:/app
+
+    bot-php-fpm:
+        build:
+            context: bot/docker
+            dockerfile: development/php-fpm/Dockerfile
+        volumes:
+            - ./bot:/app
+
+    bot-php-cli:
+        build:
+            context: bot/docker
+            dockerfile: development/php-cli/Dockerfile
+        volumes:
+            - ./bot:/app
+
