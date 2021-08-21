@@ -1,5 +1,6 @@
 init: docker-down-clear \
-	docker-pull docker-build docker-up
+	docker-pull docker-build docker-up \
+	bot-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -18,3 +19,8 @@ docker-pull:
 
 docker-build:
 	docker-compose build --pull
+
+bot-init: bot-composer-install
+
+bot-composer-install:
+	docker-compose run --rm bot-php-cli composer install
