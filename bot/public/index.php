@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Action\HomeAction;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -13,10 +12,7 @@ $container = $builder->build();
 
 $app = AppFactory::createFromContainer($container);
 
-$app->addErrorMiddleware(true, true, true);
-
-$app->addErrorMiddleware(false, true, true);
-
-$app->get('/', HomeAction::class);
+(require __DIR__ . '/../config/middleware.php')($app, $container);
+(require __DIR__ . '/../config/routes.php')($app);
 
 $app->run();
