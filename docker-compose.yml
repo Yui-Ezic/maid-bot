@@ -21,6 +21,7 @@ services:
         volumes:
             - ./bot:/app
         environment:
+            APP_ENV: dev
             APP_DEBUG: 1
 
     bot-php-cli:
@@ -30,5 +31,6 @@ services:
         volumes:
             - ./bot:/app
         environment:
+            APP_ENV: dev
             APP_DEBUG: 1
 
