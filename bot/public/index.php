@@ -8,7 +8,11 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = AppFactory::create();
+$builder = new \DI\ContainerBuilder();
+
+$container = $builder->build();
+
+$app = AppFactory::createFromContainer($container);
 
 $app->addErrorMiddleware(false, true, true);
 
