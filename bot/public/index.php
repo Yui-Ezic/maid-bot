@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use App\Http\Action\HomeAction;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -14,11 +13,10 @@ $container = $builder->build();
 
 $app = AppFactory::createFromContainer($container);
 
+$app->addErrorMiddleware(true, true, true);
+
 $app->addErrorMiddleware(false, true, true);
 
-$app->get('/', function (ServerRequestInterface $request, ResponseInterface $response) {
-    $response->getBody()->write('{}');
-    return $response->withHeader('Content-Type', 'application/json');
-});
+$app->get('/', HomeAction::class);
 
 $app->run();
