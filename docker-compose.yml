@@ -20,6 +20,8 @@ services:
             dockerfile: development/php-fpm/Dockerfile
         volumes:
             - ./bot:/app
+        environment:
+            APP_DEBUG: 1
 
     bot-php-cli:
         build:
@@ -27,4 +29,6 @@ services:
             dockerfile: development/php-cli/Dockerfile
         volumes:
             - ./bot:/app
+        environment:
+            APP_DEBUG: 1
 
