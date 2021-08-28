@@ -1,11 +1,20 @@
 version: "3.8"
 services:
-    gateway:
-        build:
-            context: gateway/docker
-            dockerfile: development/nginx/Dockerfile
+    traefik:
+        image: traefik:2.4
+        command:
+            --providers.docker=true
+            --providers.docker.exposedByDefault=false
+            --entryPoints.http.address=:80
         ports:
             - "80:80"
+        networks:
+            - traefik-public
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
 
     bot:
         build:
@@ -13,6 +22,19 @@ services:
             dockerfile: development/nginx/Dockerfile
         volumes:
             - ./bot:/app
+        networks:
+            - traefik-public
+            - default
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+            - traefik.http.routers.bot.rule=Host(`localhost`) || Host(`www.localhost`)
+            - traefik.http.routers.bot.entryPoints=http
+            - traefik.http.services.bot.loadBalancer.server.port=80
+            - traefik.http.middlewares.bot-redirect.redirectRegex.regex=^(https?://)www.localhost/(.*)$$
+            - traefik.http.middlewares.bot-redirect.redirectRegex.replacement=$${1}localhost/$${2}
+            - traefik.http.middlewares.bot-redirect.redirectRegex.permanent=true
+            - traefik.http.routers.bot.middlewares=bot-redirect
 
     bot-php-fpm:
         build:
@@ -34,3 +56,6 @@ services:
             APP_ENV: dev
             APP_DEBUG: 1
 
+networks:
+    traefik-public:
+        name: traefik-public
