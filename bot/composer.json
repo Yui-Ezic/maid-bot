@@ -8,6 +8,7 @@
   },
   "require": {
     "php": "^8.0",
+    "botman/botman": "^2.6",
     "laminas/laminas-config-aggregator": "^1.5",
     "php-di/php-di": "^6.3",
     "slim/psr7": "^1.4",
