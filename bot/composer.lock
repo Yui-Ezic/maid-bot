@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e50d94c6dd46a7a29638ed4d93d68442",
+    "content-hash": "9a0a555bde53df39cf8a291577683cfc",
     "packages": [
         {
             "name": "botman/botman",
@@ -2459,6 +2459,78 @@
                 }
             ],
             "time": "2021-04-19T16:34:45+00:00"
+        },
+        {
+            "name": "yageorgiy/botman-vk-community-callback-driver",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yageorgiy/botman-vk-community-callback-driver.git",
+                "reference": "1c3548f50155bb088fa4cf90c9f64e09cb14cdd8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yageorgiy/botman-vk-community-callback-driver/zipball/1c3548f50155bb088fa4cf90c9f64e09cb14cdd8",
+                "reference": "1c3548f50155bb088fa4cf90c9f64e09cb14cdd8",
+                "shasum": ""
+            },
+            "require": {
+                "botman/botman": "~2.1|~3.0",
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "botman/studio-addons": "~1.0",
+                "illuminate/contracts": "~5.5.0",
+                "mockery/mockery": "~1.3.3",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.7.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "BotMan\\Drivers\\VK\\Providers\\VKServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BotMan\\Drivers\\VK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yankovskiy Georgiy",
+                    "email": "admin@yageorgiy.ru"
+                }
+            ],
+            "description": "A VK community callback driver for botman.io framework",
+            "homepage": "http://github.com/yageorgiy/botman-vk-community-callback-driver",
+            "keywords": [
+                "Botman",
+                "VK Callback",
+                "VK Community",
+                "VK Messages",
+                "VK api",
+                "Vkontakte Bot",
+                "Vkontakte Community Bot",
+                "bot",
+                "vk",
+                "vkontakte"
+            ],
+            "support": {
+                "issues": "https://github.com/yageorgiy/botman-vk-community-callback-driver/issues",
+                "source": "https://github.com/yageorgiy/botman-vk-community-callback-driver/tree/1.7.1"
+            },
+            "time": "2020-09-27T10:20:54+00:00"
         }
     ],
     "packages-dev": [
