@@ -20,6 +20,8 @@ docker-pull:
 docker-build:
 	docker-compose build --pull
 
+test: bot-tests
+
 bot-init: bot-composer-install
 
 bot-composer-install:

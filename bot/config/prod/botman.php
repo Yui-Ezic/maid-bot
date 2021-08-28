@@ -2,35 +2,14 @@
 
 declare(strict_types=1);
 
-use BotMan\BotMan\BotMan;
-use BotMan\BotMan\BotManFactory;
-use BotMan\BotMan\Drivers\DriverManager;
 use BotMan\Drivers\VK\VkCommunityCallbackDriver;
-use Psr\Container\ContainerInterface;
-use function App\env;
 
 return [
-    BotMan::class => static function (ContainerInterface $container): BotMan {
-        // Get config
-        $config = $container->get('config')['botman'];
-
-        foreach ($config['drivers'] as $driver) {
-            DriverManager::loadDriver($driver);
-        }
-
-        // Create an instance
-        $botman = BotManFactory::create($config['config']);
-
-        // Give the bot something to listen for.
-        $botman->hears('hello', function (BotMan $bot) {
-            $bot->reply('Hello yourself.');
-        });
-
-        return $botman;
-    },
-
     'config' => [
         'botman' => [
+            'drivers' => [
+                VkCommunityCallbackDriver::class
+            ],
             'config' => [
                 "vk" => [
                     // User or community token for sending messages (from Access tokens tab, see above)
