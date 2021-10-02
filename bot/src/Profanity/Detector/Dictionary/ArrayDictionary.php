@@ -21,8 +21,8 @@ class ArrayDictionary implements Dictionary
     }
 
     /**
-     * @param string[] $value
-     * @return string[]
+     * @param string[]|string $value
+     * @return string[]|string
      */
     private function toLowerCase(array|string $value): array|string
     {
