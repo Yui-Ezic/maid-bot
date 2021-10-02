@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayDictionaryTest extends TestCase
 {
-    public function dataProvider()
+    public function dataProvider(): array
     {
         return [
             [[$word = uniqid()], $word, true],
