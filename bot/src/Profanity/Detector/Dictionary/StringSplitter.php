@@ -8,6 +8,6 @@ class StringSplitter
 {
     public function splitToWords(string $string): array
     {
-        return preg_split('/\s+/', $string);
+        return preg_split('/\PL+/u', $string, -1, PREG_SPLIT_NO_EMPTY);
     }
 }
