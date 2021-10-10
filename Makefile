@@ -20,12 +20,12 @@ docker-pull:
 docker-build:
 	docker-compose build --pull
 
-test: bot-tests
+test: bot-test
 
 bot-init: bot-composer-install
 
 bot-composer-install:
 	docker-compose run --rm bot-php-cli composer install
 
-bot-tests:
+bot-test:
 	docker-compose run --rm bot-php-cli composer test
