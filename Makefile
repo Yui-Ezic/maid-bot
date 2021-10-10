@@ -1,6 +1,6 @@
 init: docker-down-clear \
 	docker-pull docker-build docker-up \
-	bot-init bot-tests
+	bot-init
 up: docker-up
 down: docker-down
 restart: down up
