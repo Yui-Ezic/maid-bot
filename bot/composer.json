@@ -4,7 +4,11 @@
   "license": "MIT",
   "config": {
     "process-timeout": 0,
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true,
+      "thecodingmachine/discovery": true
+    }
   },
   "require": {
     "php": "^8.0",
