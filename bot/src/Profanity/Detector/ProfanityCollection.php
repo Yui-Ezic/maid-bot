@@ -8,8 +8,9 @@ use ArrayIterator;
 use InvalidArgumentException;
 use Iterator;
 use IteratorAggregate;
+use Stringable;
 
-class ProfanityCollection implements IteratorAggregate
+class ProfanityCollection implements IteratorAggregate, Stringable
 {
     public function __construct(
         /**
@@ -36,5 +37,10 @@ class ProfanityCollection implements IteratorAggregate
     public function getIterator(): Iterator
     {
         return new ArrayIterator($this->profanities);
+    }
+
+    public function __toString()
+    {
+        return implode(', ', $this->profanities);
     }
 }
