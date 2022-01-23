@@ -5,6 +5,7 @@ declare(strict_types=1);
 return
     (new PhpCsFixer\Config())
         ->setCacheFile(__DIR__ . '/var/cache/.php_cs')
+        ->setRiskyAllowed(true)
         ->setFinder(
             PhpCsFixer\Finder::create()
                 ->in([
