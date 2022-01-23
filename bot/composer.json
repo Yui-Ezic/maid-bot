@@ -36,7 +36,7 @@
     }
   },
   "scripts": {
-    "lint": "phplint --no-cache",
+    "lint": "phplint",
     "test": "phpunit --colors=always"
   }
 }
