@@ -11,7 +11,10 @@ use App\Profanity\Detector\Message;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ProfanityDetectorTest extends TestCase
+/**
+ * @internal
+ */
+final class ProfanityDetectorTest extends TestCase
 {
     private Dictionary|MockObject $dictionary;
     private StringSplitter|MockObject $stringSplitter;
@@ -25,30 +28,30 @@ class ProfanityDetectorTest extends TestCase
         $this->profanityDetector = new ProfanityDetector($this->dictionary, $this->stringSplitter);
     }
 
-    public function testCallSplitter()
+    public function testCallSplitter(): void
     {
         $this->stringSplitter
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('splitToWords')
-            ->withConsecutive([$this->equalTo($string = uniqid())])
+            ->withConsecutive([self::equalTo($string = uniqid())])
             ->willReturn([]);
 
         $this->profanityDetector->detect(new Message($string));
     }
 
-    public function testCheckAllSplittedWord()
+    public function testCheckAllSplittedWord(): void
     {
         $this->stringSplitter
             ->method('splitToWords')
             ->willReturn($words = ['a', 'b', 'c']);
 
         $this->dictionary
-            ->expects($this->exactly(count($words)))
+            ->expects(self::exactly(\count($words)))
             ->method('has')
             ->withConsecutive(
-                [$this->equalTo('a')],
-                [$this->equalTo('b')],
-                [$this->equalTo('c')],
+                [self::equalTo('a')],
+                [self::equalTo('b')],
+                [self::equalTo('c')],
             )
             ->willReturn(false);
 

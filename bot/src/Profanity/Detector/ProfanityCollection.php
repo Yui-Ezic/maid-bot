@@ -17,13 +17,17 @@ class ProfanityCollection implements IteratorAggregate, Stringable
          * @var Profanity[]
          */
         private array $profanities = []
-    )
-    {
+    ) {
         foreach ($this->profanities as $profanity) {
             if (!$profanity instanceof Profanity) {
                 throw new InvalidArgumentException('Profanities should be instance of ' . Profanity::class);
             }
         }
+    }
+
+    public function __toString()
+    {
+        return implode(', ', $this->profanities);
     }
 
     public function notEmpty(): bool
@@ -37,10 +41,5 @@ class ProfanityCollection implements IteratorAggregate, Stringable
     public function getIterator(): Iterator
     {
         return new ArrayIterator($this->profanities);
-    }
-
-    public function __toString()
-    {
-        return implode(', ', $this->profanities);
     }
 }

@@ -8,6 +8,6 @@ class Message
 {
     public function __construct(
         public string $text
-    )
-    {}
+    ) {
+    }
 }

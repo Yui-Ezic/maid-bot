@@ -6,6 +6,6 @@ use function App\env;
 
 return [
     'config' => [
-        'debug' => (bool)env("APP_DEBUG", '0'),
-    ]
+        'debug' => (bool)env('APP_DEBUG', '0'),
+    ],
 ];

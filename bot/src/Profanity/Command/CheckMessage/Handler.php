@@ -14,10 +14,10 @@ class Handler
     public function __construct(
         private ProfanityDetector $profanityDetector,
         private Notifier $notifier
-    )
-    {}
+    ) {
+    }
 
-    public function handle(Command $command)
+    public function handle(Command $command): void
     {
         $message = new Message($command->text);
         $profanities = $this->profanityDetector->detect($message);

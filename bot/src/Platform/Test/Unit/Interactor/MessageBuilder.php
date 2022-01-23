@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Platform\Test\Unit\Interactor;
 
 use App\Platform\Interactor\Message;
@@ -22,7 +24,7 @@ class MessageBuilder
     {
         return new self([
             self::CHAT_ID => uniqid(),
-            self::TEXT => uniqid()
+            self::TEXT => uniqid(),
         ]);
     }
 

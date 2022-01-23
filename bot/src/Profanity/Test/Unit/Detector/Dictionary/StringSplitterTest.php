@@ -7,7 +7,10 @@ namespace App\Profanity\Test\Unit\Detector\Dictionary;
 use App\Profanity\Detector\Dictionary\StringSplitter;
 use PHPUnit\Framework\TestCase;
 
-class StringSplitterTest extends TestCase
+/**
+ * @internal
+ */
+final class StringSplitterTest extends TestCase
 {
     public function dataProvider(): array
     {
@@ -18,14 +21,16 @@ class StringSplitterTest extends TestCase
             ['hello)))', ['hello']],
             ['!be careful!', ['be', 'careful']],
             ['Hello, world!', ['Hello', 'world']],
-            ['n1ce', ['n', 'ce']]
+            ['n1ce', ['n', 'ce']],
         ];
     }
 
     /**
      * @dataProvider dataProvider
+     * @param mixed $string
+     * @param mixed $expectedWords
      */
-    public function test($string, $expectedWords)
+    public function test($string, $expectedWords): void
     {
         $splitter = new StringSplitter();
 

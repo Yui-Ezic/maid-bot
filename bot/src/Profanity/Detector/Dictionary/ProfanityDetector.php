@@ -14,8 +14,8 @@ class ProfanityDetector implements ProfanityDetectorInterface
     public function __construct(
         private Dictionary $dictionary,
         private StringSplitter $stringSplitter
-    )
-    {}
+    ) {
+    }
 
     public function detect(Message $message): ProfanityCollection
     {
@@ -30,12 +30,8 @@ class ProfanityDetector implements ProfanityDetectorInterface
      */
     private function findProfanities(array $words): array
     {
-        $profanities = array_filter($words, function (string $word) {
-            return $this->dictionary->has($word);
-        });
+        $profanities = array_filter($words, fn (string $word) => $this->dictionary->has($word));
 
-        return array_map(static function (string $profanity) {
-            return new Profanity($profanity);
-        }, $profanities);
+        return array_map(static fn (string $profanity) => new Profanity($profanity), $profanities);
     }
 }

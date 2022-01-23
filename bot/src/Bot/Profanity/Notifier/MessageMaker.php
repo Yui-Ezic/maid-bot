@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bot\Profanity\Notifier;
 
 use App\Platform\Interactor\Message;

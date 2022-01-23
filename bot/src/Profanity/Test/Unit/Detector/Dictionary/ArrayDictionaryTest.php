@@ -7,7 +7,10 @@ namespace App\Profanity\Test\Unit\Detector\Dictionary;
 use App\Profanity\Detector\Dictionary\ArrayDictionary;
 use PHPUnit\Framework\TestCase;
 
-class ArrayDictionaryTest extends TestCase
+/**
+ * @internal
+ */
+final class ArrayDictionaryTest extends TestCase
 {
     public function dataProvider(): array
     {
@@ -20,8 +23,11 @@ class ArrayDictionaryTest extends TestCase
 
     /**
      * @dataProvider dataProvider
+     * @param mixed $words
+     * @param mixed $needle
+     * @param mixed $expected
      */
-    public function test($words, $needle, $expected)
+    public function test($words, $needle, $expected): void
     {
         $dictionary = new ArrayDictionary($words);
 

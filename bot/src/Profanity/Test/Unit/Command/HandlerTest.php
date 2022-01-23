@@ -14,7 +14,10 @@ use App\Profanity\Notifier\Notifier;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class HandlerTest extends TestCase
+/**
+ * @internal
+ */
+final class HandlerTest extends TestCase
 {
     private Handler $handler;
     private ProfanityDetector|MockObject $profanityDetectorMock;
@@ -28,7 +31,7 @@ class HandlerTest extends TestCase
         $this->handler = new Handler($this->profanityDetectorMock, $this->notifierMock);
     }
 
-    public function testNotifyIfProfanityDetected()
+    public function testNotifyIfProfanityDetected(): void
     {
         $command = new Command('message');
         $this->profanityDetectorMock
@@ -36,9 +39,9 @@ class HandlerTest extends TestCase
             ->willReturn($profanities = new ProfanityCollection([new Profanity('test')]));
 
         $this->notifierMock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('notify')
-            ->with($this->callback(static function(Notification $value) use ($command, $profanities) {
+            ->with(self::callback(static function (Notification $value) use ($command, $profanities) {
                 return
                     $value->getMessage()->text === $command->text &&
                     $value->getProfanities() === $profanities;
@@ -47,7 +50,7 @@ class HandlerTest extends TestCase
         $this->handler->handle($command);
     }
 
-    public function testNotNotifyIfProfanityNotDetected()
+    public function testNotNotifyIfProfanityNotDetected(): void
     {
         $command = new Command('message');
         $this->profanityDetectorMock
@@ -55,7 +58,7 @@ class HandlerTest extends TestCase
             ->willReturn(new ProfanityCollection([]));
 
         $this->notifierMock
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('notify');
 
         $this->handler->handle($command);

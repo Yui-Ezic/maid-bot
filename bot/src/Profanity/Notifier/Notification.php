@@ -12,8 +12,8 @@ class Notification
     public function __construct(
         private Message $message,
         private ProfanityCollection $profanities
-    )
-    {}
+    ) {
+    }
 
     public function getMessage(): Message
     {

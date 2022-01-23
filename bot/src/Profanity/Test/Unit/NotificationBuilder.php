@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Profanity\Test\Unit;
 
 use App\Profanity\Detector\Message;
@@ -25,7 +27,7 @@ class NotificationBuilder
     {
         return new self([
             self::MESSAGE => new Message(uniqid()),
-            self::PROFANITIES => self::getRandomProfanities()
+            self::PROFANITIES => self::getRandomProfanities(),
         ]);
     }
 
@@ -36,10 +38,8 @@ class NotificationBuilder
 
     private static function getRandomProfanities(): ProfanityCollection
     {
-        $randomRange = range(1, rand(1,3));
-        $profanitiesArray = array_map(static function () {
-            return new Profanity(uniqid());
-        }, $randomRange);
+        $randomRange = range(1, random_int(1, 3));
+        $profanitiesArray = array_map(static fn () => new Profanity(uniqid()), $randomRange);
         return new ProfanityCollection($profanitiesArray);
     }
 

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bot;
 
 use App\Platform\Event\NewMessage;
-use App\Profanity\Command\CheckMessage\Handler as ProfanityCheckMessageHandler;
 use App\Profanity\Command\CheckMessage\Command as ProfanityCheckMessageCommand;
+use App\Profanity\Command\CheckMessage\Handler as ProfanityCheckMessageHandler;
 
 class NewMessageHandler
 {

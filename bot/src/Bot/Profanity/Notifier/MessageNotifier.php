@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Bot\Profanity\Notifier;
 
 use App\Platform\Interactor\MessageSender;
@@ -15,24 +17,23 @@ class MessageNotifier implements Notifier
         private array $recipientChatIds,
         private MessageSender $messageSender,
         private MessageMaker $messageMaker
-    )
-    {
+    ) {
     }
 
-    public function notify(Notification $notification)
+    public function notify(Notification $notification): void
     {
         $this->initMessageMaker($notification);
         $this->sendMessagesToRecipients();
     }
 
-    private function initMessageMaker(Notification $notification)
+    private function initMessageMaker(Notification $notification): void
     {
         $this->messageMaker->setNotification($notification);
     }
 
-    private function sendMessagesToRecipients()
+    private function sendMessagesToRecipients(): void
     {
-        array_walk($this->recipientChatIds, function (string $chatId) {
+        array_walk($this->recipientChatIds, function (string $chatId): void {
             $message = $this->messageMaker->withChatId($chatId)->make();
             $this->messageSender->send($message);
         });

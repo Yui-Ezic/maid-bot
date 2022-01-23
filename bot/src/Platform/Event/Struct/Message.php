@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Platform\Event\Struct;
 
 class Message
@@ -8,8 +10,7 @@ class Message
         private User $user,
         private Chat $chat,
         private string $text,
-    )
-    {
+    ) {
     }
 
     public function getUser(): User
