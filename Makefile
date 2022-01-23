@@ -22,6 +22,7 @@ docker-build:
 
 test: bot-test
 lint: bot-lint
+cs-fixer: bot-cs-fixer
 
 bot-init: bot-composer-install
 
@@ -33,3 +34,6 @@ bot-test:
 
 bot-lint:
 	docker-compose run --rm bot-php-cli composer lint
+
+bot-cs-fixer:
+	docker-compose run --rm bot-php-cli composer php-cs-fixer
