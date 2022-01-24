@@ -5,7 +5,7 @@
 
 ## Windows wsl2
 Установите docker desktop и выберите wsl2 в качестве бекграунд сервера для докера.
-Введите 'wsl' в командной строке находясь в директории с проектом. 
+Введите `wsl` в командной строке находясь в директории с проектом. 
 Дальше осталось запустить `make init` и готово. 
 
 Если у вас возникла ошибка `failed to solve with frontend dockerfile.v0: failed to create LLB definition: failed to 
