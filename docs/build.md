@@ -6,7 +6,7 @@
 ## Windows wsl2
 Установите docker desktop и выберите wsl2 в качестве бекграунд сервера для докера.
 Введите 'wsl' в командной строке находясь в директории с проектом. 
-Дальше осталось запустить 'make init' и готово. 
+Дальше осталось запустить `make init` и готово. 
 
 Если у вас возникла ошибка `failed to solve with frontend dockerfile.v0: failed to create LLB definition: failed to 
 authorize: rpc error: code = Unknown desc = failed to fetch anonymous token`, то попробуйте отключить docker buildkit. 
