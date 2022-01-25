@@ -6,6 +6,9 @@ namespace App\Profanity\Detector\Dictionary;
 
 class StringSplitter
 {
+    /**
+     * @return string[]
+     */
     public function splitToWords(string $string): array
     {
         return preg_split('/\PL+/u', $string, -1, PREG_SPLIT_NO_EMPTY);

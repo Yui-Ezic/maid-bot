@@ -10,23 +10,26 @@ class ArrayDictionary implements Dictionary
         /** @var string[] */
         private array $words
     ) {
-        $this->words = $this->toLowerCase($this->words);
+        $this->words = $this->StringListToLowerCase($words);
     }
 
     public function has(string $word): bool
     {
-        $word = $this->toLowerCase($word);
+        $word = $this->stringToLowerCase($word);
         return \in_array($word, $this->words, true);
     }
 
-    /**
-     * @param string|string[] $value
-     * @return string|string[]
-     */
-    private function toLowerCase(array|string $value): array|string
+    private function stringToLowerCase(string $value): string
     {
-        return \is_string($value) ?
-            mb_strtolower($value) :
-            array_map(static fn (string $word) => mb_strtolower($word), $value);
+        return mb_strtolower($value);
+    }
+
+    /**
+     * @param string[] $value
+     * @return string[]
+     */
+    private function StringListToLowerCase(array $value): array
+    {
+        return array_map(static fn (string $word) => mb_strtolower($word), $value);
     }
 }

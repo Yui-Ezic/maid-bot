@@ -16,36 +16,41 @@ use PHPUnit\Framework\TestCase;
  */
 final class ProfanityDetectorTest extends TestCase
 {
-    private Dictionary|MockObject $dictionary;
-    private StringSplitter|MockObject $stringSplitter;
-    private ProfanityDetector $profanityDetector;
+    /**
+     * @psalm-var MockObject&Dictionary|null
+     */
+    private ?MockObject $dictionaryMock;
+
+    /**
+     * @psalm-var MockObject&StringSplitter|null
+     */
+    private ?MockObject $stringSplitterMock;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->dictionary = $this->createMock(Dictionary::class);
-        $this->stringSplitter = $this->createMock(StringSplitter::class);
-        $this->profanityDetector = new ProfanityDetector($this->dictionary, $this->stringSplitter);
+        $this->dictionaryMock = null;
+        $this->stringSplitterMock = null;
     }
 
     public function testCallSplitter(): void
     {
-        $this->stringSplitter
+        $this->getStringSplitterMock()
             ->expects(self::once())
             ->method('splitToWords')
             ->withConsecutive([self::equalTo($string = uniqid())])
             ->willReturn([]);
 
-        $this->profanityDetector->detect(new Message($string));
+        $this->getProfanityDetector()->detect(new Message($string));
     }
 
     public function testCheckAllSplittedWord(): void
     {
-        $this->stringSplitter
+        $this->getStringSplitterMock()
             ->method('splitToWords')
             ->willReturn($words = ['a', 'b', 'c']);
 
-        $this->dictionary
+        $this->getDictionaryMock()
             ->expects(self::exactly(\count($words)))
             ->method('has')
             ->withConsecutive(
@@ -55,6 +60,33 @@ final class ProfanityDetectorTest extends TestCase
             )
             ->willReturn(false);
 
-        $this->profanityDetector->detect(new Message('test'));
+        $this->getProfanityDetector()->detect(new Message('test'));
+    }
+
+    private function getProfanityDetector(): ProfanityDetector
+    {
+        return new ProfanityDetector($this->getDictionaryMock(), $this->getStringSplitterMock());
+    }
+
+    /**
+     * @psalm-return MockObject&Dictionary
+     */
+    private function getDictionaryMock(): MockObject
+    {
+        if ($this->dictionaryMock === null) {
+            $this->dictionaryMock = $this->createMock(Dictionary::class);
+        }
+        return $this->dictionaryMock;
+    }
+
+    /**
+     * @psalm-return MockObject&StringSplitter
+     */
+    private function getStringSplitterMock(): MockObject
+    {
+        if ($this->stringSplitterMock === null) {
+            $this->stringSplitterMock = $this->createMock(StringSplitter::class);
+        }
+        return $this->stringSplitterMock;
     }
 }

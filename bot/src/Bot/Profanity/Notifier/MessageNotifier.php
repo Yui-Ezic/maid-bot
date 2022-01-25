@@ -33,9 +33,9 @@ class MessageNotifier implements Notifier
 
     private function sendMessagesToRecipients(): void
     {
-        array_walk($this->recipientChatIds, function (string $chatId): void {
+        foreach ($this->recipientChatIds as $chatId) {
             $message = $this->messageMaker->withChatId($chatId)->make();
             $this->messageSender->send($message);
-        });
+        }
     }
 }

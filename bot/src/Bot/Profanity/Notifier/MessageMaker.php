@@ -12,8 +12,12 @@ class MessageMaker
     private const CHAT_ID = 'chatId';
     private const TEXT = 'text';
 
-    public function __construct(private array $properties)
-    {
+    public function __construct(
+        /**
+         * @psalm-var array{chatId:string,text:string}
+         */
+        private array $properties
+    ) {
     }
 
     public function make(): Message
@@ -41,6 +45,7 @@ class MessageMaker
     private function with(string $property, mixed $value): self
     {
         $clone = clone $this;
+        /** @psalm-suppress PropertyTypeCoercion */
         $clone->properties[$property] = $value;
         return $clone;
     }

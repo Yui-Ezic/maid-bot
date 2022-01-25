@@ -19,26 +19,31 @@ use PHPUnit\Framework\TestCase;
  */
 final class HandlerTest extends TestCase
 {
-    private Handler $handler;
-    private ProfanityDetector|MockObject $profanityDetectorMock;
-    private Notifier|MockObject $notifierMock;
+    /**
+     * @psalm-var MockObject&ProfanityDetector|null
+     */
+    private ?MockObject $profanityDetectorMock;
+
+    /**
+     * @psalm-var MockObject&Notifier|null
+     */
+    private ?MockObject $notifierMock;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->profanityDetectorMock = $this->createMock(ProfanityDetector::class);
-        $this->notifierMock = $this->createMock(Notifier::class);
-        $this->handler = new Handler($this->profanityDetectorMock, $this->notifierMock);
+        $this->profanityDetectorMock = null;
+        $this->notifierMock = null;
     }
 
     public function testNotifyIfProfanityDetected(): void
     {
         $command = new Command('message');
-        $this->profanityDetectorMock
+        $this->getProfanityDetectorMock()
             ->method('detect')
             ->willReturn($profanities = new ProfanityCollection([new Profanity('test')]));
 
-        $this->notifierMock
+        $this->getNotifierMock()
             ->expects(self::once())
             ->method('notify')
             ->with(self::callback(static function (Notification $value) use ($command, $profanities) {
@@ -47,20 +52,47 @@ final class HandlerTest extends TestCase
                     $value->getProfanities() === $profanities;
             }));
 
-        $this->handler->handle($command);
+        $this->getHandler()->handle($command);
     }
 
     public function testNotNotifyIfProfanityNotDetected(): void
     {
         $command = new Command('message');
-        $this->profanityDetectorMock
+        $this->getProfanityDetectorMock()
             ->method('detect')
             ->willReturn(new ProfanityCollection([]));
 
-        $this->notifierMock
+        $this->getNotifierMock()
             ->expects(self::never())
             ->method('notify');
 
-        $this->handler->handle($command);
+        $this->getHandler()->handle($command);
+    }
+
+    private function getHandler(): Handler
+    {
+        return new Handler($this->getProfanityDetectorMock(), $this->getNotifierMock());
+    }
+
+    /**
+     * @psalm-return MockObject&ProfanityDetector
+     */
+    private function getProfanityDetectorMock(): MockObject
+    {
+        if ($this->profanityDetectorMock === null) {
+            $this->profanityDetectorMock = $this->createMock(ProfanityDetector::class);
+        }
+        return $this->profanityDetectorMock;
+    }
+
+    /**
+     * @psalm-return MockObject&Notifier
+     */
+    private function getNotifierMock(): MockObject
+    {
+        if ($this->notifierMock === null) {
+            $this->notifierMock = $this->createMock(Notifier::class);
+        }
+        return $this->notifierMock;
     }
 }

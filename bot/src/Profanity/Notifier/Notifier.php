@@ -6,5 +6,5 @@ namespace App\Profanity\Notifier;
 
 interface Notifier
 {
-    public function notify(Notification $notification);
+    public function notify(Notification $notification): void;
 }

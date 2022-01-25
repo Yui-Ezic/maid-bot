@@ -9,9 +9,13 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
+ * @psalm-suppress PropertyNotSetInConstructor
  */
 final class StringSplitterTest extends TestCase
 {
+    /**
+     * @psalm-return array<array{0:string,1:array<string>}>
+     */
     public function dataProvider(): array
     {
         return [
@@ -27,10 +31,9 @@ final class StringSplitterTest extends TestCase
 
     /**
      * @dataProvider dataProvider
-     * @param mixed $string
-     * @param mixed $expectedWords
+     * @param string[] $expectedWords
      */
-    public function test($string, $expectedWords): void
+    public function test(string $string, array $expectedWords): void
     {
         $splitter = new StringSplitter();
 

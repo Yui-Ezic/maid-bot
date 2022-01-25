@@ -9,6 +9,8 @@ use App\Bot\Profanity\Notifier\MessageNotifier;
 use App\Platform\Interactor\MessageSender;
 use App\Platform\Test\Unit\Interactor\MessageBuilder;
 use App\Profanity\Test\Unit\NotificationBuilder;
+use Exception;
+use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -17,22 +19,34 @@ use PHPUnit\Framework\TestCase;
  */
 final class MessageNotifierTest extends TestCase
 {
+    /**
+     * @var string[]
+     */
     private array $recipientChatIds = [];
-    private MessageSender|MockObject $messageSenderMock;
-    private MessageMaker|MockObject $messageMakerMock;
+
+    /**
+     * @psalm-var MockObject&MessageSender
+     */
+    private ?MockObject $messageSenderMock;
+
+    /**
+     * @psalm-var  MockObject&MessageMaker
+     */
+    private ?MockObject $messageMakerMock;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->messageSenderMock = $this->createMock(MessageSender::class);
-        $this->messageMakerMock = $this->createMock(MessageMaker::class);
+        $this->recipientChatIds = [];
+        $this->messageSenderMock = null;
+        $this->messageMakerMock = null;
     }
 
     public function testInitMessageSender(): void
     {
         $notification = NotificationBuilder::random()->build();
 
-        $this->messageMakerMock
+        $this->getMessageMakerMock()
             ->expects(self::once())
             ->method('setNotification')
             ->with(self::equalTo($notification));
@@ -46,7 +60,7 @@ final class MessageNotifierTest extends TestCase
         $messageMakerMocks = $this->getMessageMakerMocks($recipients);
 
         // expects withChatId will be called for each recipient
-        $this->messageMakerMock
+        $this->getMessageMakerMock()
             ->expects(self::exactly(\count($this->recipientChatIds)))
             ->method('withChatId')
             ->withConsecutive(...$this->consecutiveEqualTo($recipients))
@@ -65,15 +79,41 @@ final class MessageNotifierTest extends TestCase
 
     private function makeMessageNotifier(): MessageNotifier
     {
-        return new MessageNotifier($this->recipientChatIds, $this->messageSenderMock, $this->messageMakerMock);
+        return new MessageNotifier($this->recipientChatIds, $this->getMessageSenderMock(), $this->getMessageMakerMock());
     }
 
+    /**
+     * @psalm-return MockObject&MessageSender
+     */
+    private function getMessageSenderMock(): MockObject
+    {
+        if ($this->messageSenderMock === null) {
+            $this->messageSenderMock = $this->createMock(MessageSender::class);
+        }
+        return $this->messageSenderMock;
+    }
+
+    /**
+     * @psalm-return MockObject&MessageMaker
+     */
+    private function getMessageMakerMock(): MockObject
+    {
+        if ($this->messageMakerMock === null) {
+            $this->messageMakerMock = $this->createMock(MessageMaker::class);
+        }
+        return $this->messageMakerMock;
+    }
+
+    /**
+     * @param string[] $chatIds
+     */
     private function addRecipients(array $chatIds): void
     {
         $this->recipientChatIds = array_merge($this->recipientChatIds, $chatIds);
     }
 
     /**
+     * @throws Exception
      * @return string[]
      */
     private function getRandomRecipients(): array
@@ -96,6 +136,9 @@ final class MessageNotifierTest extends TestCase
         return $messageMakerMocks;
     }
 
+    /**
+     * @psalm-return array<array{0:Constraint}>
+     */
     private function consecutiveEqualTo(array $values): array
     {
         return array_map(static fn (mixed $value) => [self::equalTo($value)], $values);

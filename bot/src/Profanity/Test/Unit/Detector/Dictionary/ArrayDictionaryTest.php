@@ -12,6 +12,9 @@ use PHPUnit\Framework\TestCase;
  */
 final class ArrayDictionaryTest extends TestCase
 {
+    /**
+     * @psalm-return array<array{0:array<string>,1:string,2:bool}>
+     */
     public function dataProvider(): array
     {
         return [
@@ -23,11 +26,9 @@ final class ArrayDictionaryTest extends TestCase
 
     /**
      * @dataProvider dataProvider
-     * @param mixed $words
-     * @param mixed $needle
-     * @param mixed $expected
+     * @param string[] $words
      */
-    public function test($words, $needle, $expected): void
+    public function test(array $words, string $needle, bool $expected): void
     {
         $dictionary = new ArrayDictionary($words);
 
