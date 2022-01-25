@@ -23,7 +23,7 @@ docker-build:
 test: bot-test
 lint: bot-lint
 analyze: bot-analyze
-cs-fix: bot-cs-fixer
+cs-fix: bot-cs-fix
 
 bot-init: bot-composer-install
 
