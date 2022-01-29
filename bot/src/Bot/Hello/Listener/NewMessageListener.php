@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Bot\Hello;
+namespace App\Bot\Hello\Listener;
 
 use App\Platform\Event\NewMessage;
 use App\Platform\Interactor\Message;
 use App\Platform\Interactor\MessageSender;
 
-class NewMessageHandler
+class NewMessageListener
 {
     public function __construct(private MessageSender $messageSender)
     {
     }
 
-    public function handle(NewMessage $message): void
+    public function __invoke(NewMessage $message): void
     {
         $messageText = $message->getMessage()->getText();
         if (mb_strtolower($messageText) === 'hello') {
