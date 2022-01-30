@@ -20,6 +20,7 @@ docker-pull:
 docker-build:
 	docker-compose build --pull
 
+check: lint test analyze
 test: bot-test
 lint: bot-lint
 analyze: bot-analyze
