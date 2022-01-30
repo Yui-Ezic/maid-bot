@@ -45,6 +45,9 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
+            VK_SECRET: secret
+            VK_GROUP_ID: 1
+            VK_CONFIRMATION_CODE: secret
 
     bot-php-cli:
         build:
@@ -55,6 +58,9 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
+            VK_SECRET: secret
+            VK_GROUP_ID: 1
+            VK_CONFIRMATION_CODE: secret
 
 networks:
     traefik-public:
