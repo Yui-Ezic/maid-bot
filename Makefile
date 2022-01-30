@@ -42,3 +42,6 @@ bot-analyze:
 	docker-compose run --rm bot-php-cli composer psalm
 bot-cs-fix:
 	docker-compose run --rm bot-php-cli composer php-cs-fixer fix
+
+build:
+	docker --log-level=debug build --pull --file=bot/docker/production/php-fpm/Dockerfile -t ${_REGION}/${PROJECT_ID}/${_DOCKER_REGISTRY}/${_DOCKER_IMAGENAME}:${SHORT_SHA} bot
