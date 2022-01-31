@@ -8,7 +8,7 @@ use App\Vk\Callback\Exception\InvalidCallbackSchema;
 use DomainException;
 use stdClass;
 
-class UnionCallbackHandler
+class UnionCallbackHandler implements CallbackHandler
 {
     public function __construct(
         private string $secret,

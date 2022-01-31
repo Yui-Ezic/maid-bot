@@ -32,10 +32,18 @@ return [
         $config = $container->get('config');
 
         /**
+         * @psalm-suppress MissingClosureReturnType
          * @psalm-suppress MixedArrayAccess
          * @psalm-suppress MixedArgument
          */
-        return new UnionCallbackHandler($config['vk']['handlers'], $config['vk']['secret']);
+        $handlers = array_map(static fn (string $name) => $container->get($name), $config['vk']['handlers']);
+
+        /**
+         * @psalm-suppress MixedArrayAccess
+         * @psalm-suppress MixedArgument
+         * @psalm-suppress MixedArgumentTypeCoercion
+         */
+        return new UnionCallbackHandler($config['vk']['secret'], $handlers);
     },
     ConfirmationCallbackHandler::class => static function (ContainerInterface $container) {
         /**
