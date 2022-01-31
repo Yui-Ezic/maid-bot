@@ -45,6 +45,7 @@ services:
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
+            PHP_IDE_CONFIG: serverName=Bot
             VK_SECRET: secret
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: secret
