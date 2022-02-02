@@ -49,6 +49,7 @@ services:
             VK_SECRET: secret
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: secret
+            VK_ACCESS_TOKEN: secret
 
     bot-php-cli:
         build:
@@ -62,6 +63,7 @@ services:
             VK_SECRET: secret
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: secret
+            VK_ACCESS_TOKEN: secret
 
 networks:
     traefik-public:
