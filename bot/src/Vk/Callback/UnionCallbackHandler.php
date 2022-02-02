@@ -20,6 +20,7 @@ class UnionCallbackHandler implements CallbackHandler
     public function handle(stdClass $callback): ?string
     {
         $this->validate($callback);
+        $this->checkSecret($callback);
         return $this->runHandler($callback);
     }
 
