@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Action\Vk;
 
-use App\Http\Response\JsonResponse;
 use App\Http\Response\PlainTextResponse;
 use App\Vk\Callback\CallbackHandler;
 use DomainException;
@@ -23,9 +22,6 @@ class WebhookHandler implements RequestHandlerInterface
         $this->callbackHandler = $callbackHandler;
     }
 
-    /**
-     * @throws JsonException
-     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $body = (string)$request->getBody();
@@ -36,6 +32,6 @@ class WebhookHandler implements RequestHandlerInterface
             throw new DomainException('Cannot decode body.');
         }
         $result = $this->callbackHandler->handle($callback);
-        return $result !== null ? new PlainTextResponse($result) : new JsonResponse(['ok' => true]);
+        return $result !== null ? new PlainTextResponse($result) : new PlainTextResponse('Ok');
     }
 }
