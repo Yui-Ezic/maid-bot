@@ -12,6 +12,7 @@
   },
   "require": {
     "php": "^8.0",
+    "justinrainbow/json-schema": "^5.2",
     "laminas/laminas-config-aggregator": "^1.7",
     "lctrs/psalm-psr-container-plugin": "^1.7",
     "league/event": "^3.0",

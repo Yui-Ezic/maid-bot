@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Vk\Callback;
 
 use App\Vk\Callback\Exception\InvalidCallbackSchema;
-use stdClass;
 
 class ConfirmationCallbackHandler implements CallbackHandler
 {
@@ -13,7 +12,7 @@ class ConfirmationCallbackHandler implements CallbackHandler
     {
     }
 
-    public function handle(stdClass $callback): ?string
+    public function handle(object $callback): ?string
     {
         $this->validate($callback);
         if ($callback->group_id === $this->groupId) {
@@ -22,7 +21,7 @@ class ConfirmationCallbackHandler implements CallbackHandler
         return null;
     }
 
-    private function validate(stdClass $callback): void
+    private function validate(object $callback): void
     {
         if (!isset($callback->group_id)) {
             throw new InvalidCallbackSchema('No group_id property.');

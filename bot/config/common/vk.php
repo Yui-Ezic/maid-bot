@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Vk\Callback\CallbackHandler;
 use App\Vk\Callback\ConfirmationCallbackHandler;
+use App\Vk\Callback\NewMessageCallbackHandler;
 use App\Vk\Callback\UnionCallbackHandler;
 use App\Vk\Interactor\ApiMessageSender;
 use Psr\Container\ContainerInterface;
@@ -17,6 +18,7 @@ return [
             'groupId' => (int)env('VK_GROUP_ID'),
             'handlers' => [
                 'confirmation' => ConfirmationCallbackHandler::class,
+                'new_message' => NewMessageCallbackHandler::class,
             ],
             'api' => [
                 'version' => '5.131',

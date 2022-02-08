@@ -6,7 +6,6 @@ namespace App\Vk\Callback;
 
 use App\Vk\Callback\Exception\InvalidCallbackSchema;
 use DomainException;
-use stdClass;
 
 class UnionCallbackHandler implements CallbackHandler
 {
@@ -17,14 +16,14 @@ class UnionCallbackHandler implements CallbackHandler
     ) {
     }
 
-    public function handle(stdClass $callback): ?string
+    public function handle(object $callback): ?string
     {
         $this->validate($callback);
         $this->checkSecret($callback);
         return $this->runHandler($callback);
     }
 
-    private function validate(stdClass $callback): void
+    private function validate(object $callback): void
     {
         if (!isset($callback->type)) {
             throw new InvalidCallbackSchema('No type property.');
@@ -40,14 +39,14 @@ class UnionCallbackHandler implements CallbackHandler
         }
     }
 
-    private function checkSecret(stdClass $callback): void
+    private function checkSecret(object $callback): void
     {
         if ($callback->secret !== $this->secret) {
             throw new DomainException('Invalid secret.');
         }
     }
 
-    private function runHandler(stdClass $callback): ?string
+    private function runHandler(object $callback): ?string
     {
         if (isset($this->handlers[(string)$callback->type])) {
             return $this->handlers[(string)$callback->type]->handle($callback);
