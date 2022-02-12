@@ -9,6 +9,7 @@ use App\Vk\Callback\CallbackHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Throwable;
 
 class WebhookHandler implements RequestHandlerInterface
 {
@@ -24,7 +25,11 @@ class WebhookHandler implements RequestHandlerInterface
         /** @var array|null $callback */
         $callback = $request->getParsedBody();
         if ($callback) {
-            $result = $this->callbackHandler->handle($callback);
+            try {
+                $result = $this->callbackHandler->handle($callback);
+            } catch (Throwable $e) {
+                $result = null;
+            }
         }
         return isset($result) && \is_string($result) ? new PlainTextResponse($result) : new PlainTextResponse('Ok');
     }
