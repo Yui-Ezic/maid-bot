@@ -7,4 +7,5 @@ return static function (Slim\App $app, Psr\Container\ContainerInterface $contain
     $config = $container->get('config');
 
     $app->addErrorMiddleware($config['debug'], true, true);
+    $app->addBodyParsingMiddleware();
 };

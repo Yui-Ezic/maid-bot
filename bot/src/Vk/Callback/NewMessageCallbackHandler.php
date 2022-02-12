@@ -9,7 +9,7 @@ use App\Platform\Event\Struct\Chat;
 use App\Platform\Event\Struct\Message;
 use App\Platform\Event\Struct\User;
 use App\Vk\Callback\Exception\InvalidCallbackSchema;
-use App\Vk\Callback\Struct\NewMessage\Callback;
+use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
@@ -21,14 +21,25 @@ class NewMessageCallbackHandler extends AbstractHandler
     ) {
     }
 
-    public function handle(object $callback): ?string
+    public function handle(array $callback): ?string
     {
         $this->validate($callback);
-        $this->createAndDispatchEvent($this->deserialize($callback));
+        $this->createAndDispatchEvent($callback);
         return null;
     }
 
-    protected function validate(object $callback): void
+    /**
+     * @psalm-assert array{
+     *  object:array{
+     *    message:array{
+     *        from_id:int,
+     *        peer_id:int,
+     *        text:string
+     *    }
+     *  }
+     * } $callback
+     */
+    protected function validate(array $callback): void
     {
         parent::validate($callback);
         $schema = [
@@ -52,27 +63,44 @@ class NewMessageCallbackHandler extends AbstractHandler
                 ],
             ],
         ];
-        $this->validator->validate($callback, $schema);
+        $this->validator->validate($callback, $schema, Constraint::CHECK_MODE_TYPE_CAST);
         if (!$this->validator->isValid()) {
             throw new InvalidCallbackSchema('validation failed.');
         }
     }
 
-    private function deserialize(object $callback): Callback
-    {
-        return Callback::fromRaw($callback);
-    }
-
-    private function createAndDispatchEvent(Callback $callback): void
+    /**
+     * @psalm-param array{
+     *  object:array{
+     *    message:array{
+     *        from_id:int,
+     *        peer_id:int,
+     *        text:string
+     *    }
+     *  }
+     * } $callback
+     */
+    private function createAndDispatchEvent(array $callback): void
     {
         $event = $this->createEvent($callback);
         $this->dispatcher->dispatch($event);
     }
 
-    private function createEvent(Callback $callback): NewMessage
+    /**
+     * @psalm-param array{
+     *  object:array{
+     *    message:array{
+     *        from_id:int,
+     *        peer_id:int,
+     *        text:string
+     *    }
+     *  }
+     * } $callback
+     */
+    private function createEvent(array $callback): NewMessage
     {
-        $user = new User($callback->getObject()->getMessage()->getFromId());
-        $chat = new Chat((string)$callback->getObject()->getMessage()->getPeerId());
-        return new NewMessage(new Message($user, $chat, $callback->getObject()->getMessage()->getText()));
+        $user = new User($callback['object']['message']['from_id']);
+        $chat = new Chat((string)$callback['object']['message']['peer_id']);
+        return new NewMessage(new Message($user, $chat, $callback['object']['message']['text']));
     }
 }

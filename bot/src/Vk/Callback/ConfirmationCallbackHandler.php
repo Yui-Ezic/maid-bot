@@ -12,21 +12,21 @@ class ConfirmationCallbackHandler implements CallbackHandler
     {
     }
 
-    public function handle(object $callback): ?string
+    public function handle(array $callback): ?string
     {
         $this->validate($callback);
-        if ($callback->group_id === $this->groupId) {
+        if ($callback['group_id'] === $this->groupId) {
             return $this->confirmationCode;
         }
         return null;
     }
 
-    private function validate(object $callback): void
+    private function validate(array $callback): void
     {
-        if (!isset($callback->group_id)) {
+        if (!isset($callback['group_id'])) {
             throw new InvalidCallbackSchema('No group_id property.');
         }
-        if (!\is_int($callback->group_id)) {
+        if (!\is_int($callback['group_id'])) {
             throw new InvalidCallbackSchema('group_id is not int.');
         }
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Vk\Test\Unit\Callback;
 
-use App\Utils\Arrays\Convertor;
 use App\Vk\Callback\Exception\InvalidCallbackSchema;
 use App\Vk\Callback\NewMessageCallbackHandler;
 use JsonSchema\Validator;
@@ -30,7 +29,7 @@ final class NewMessageCallbackHandlerTest extends TestCase
 
     public function testSuccess(): void
     {
-        $callback = Convertor::arrayToObjectRecursive([
+        $callback = [
             'object' => [
                 'message' => [
                     'from_id' => 1,
@@ -38,7 +37,7 @@ final class NewMessageCallbackHandlerTest extends TestCase
                     'text' => 'Hello!',
                 ],
             ],
-        ]);
+        ];
 
         $result = $this->getNewMessageCallbackHandler()->handle($callback);
 
@@ -46,28 +45,28 @@ final class NewMessageCallbackHandlerTest extends TestCase
     }
 
     /**
-     * @psalm-return array<string,array<int,object>>
+     * @psalm-return array<string,array<int,array>>
      */
     public function invalidCallbacks(): array
     {
         return [
-            'Empty' => [Convertor::arrayToObjectRecursive([])],
-            'Invalid object type' => [Convertor::arrayToObjectRecursive(['object' => 'string'])],
-            'No message' => [Convertor::arrayToObjectRecursive(['object' => []])],
-            'Invalid message type' => [Convertor::arrayToObjectRecursive(['object' => ['message' => 10]])],
-            'Empty message' => [Convertor::arrayToObjectRecursive(['object' => ['message' => []]])],
+            'Empty' => [[]],
+            'Invalid object type' => [['object' => 'string']],
+            'No message' => [['object' => []]],
+            'Invalid message type' => [['object' => ['message' => 10]]],
+            'Empty message' => [['object' => ['message' => []]]],
             'No from_id' => [
-                Convertor::arrayToObjectRecursive([
+                [
                     'object' => [
                         'message' => [
                             'peer_id' => 2,
                             'text' => 'Hello!',
                         ],
                     ],
-                ]),
+                ],
             ],
-            'Invalid from_id type' =>[
-                Convertor::arrayToObjectRecursive([
+            'Invalid from_id type' => [
+                [
                     'object' => [
                         'message' => [
                             'from_id' => 1.1,
@@ -75,20 +74,20 @@ final class NewMessageCallbackHandlerTest extends TestCase
                             'text' => 'Hello!',
                         ],
                     ],
-                ]),
+                ],
             ],
             'No peer_id' => [
-                Convertor::arrayToObjectRecursive([
+                [
                     'object' => [
                         'message' => [
                             'from_id' => 1,
                             'text' => 'Hello!',
                         ],
                     ],
-                ]),
+                ],
             ],
             'Invalid peer_id type' => [
-                Convertor::arrayToObjectRecursive([
+                [
                     'object' => [
                         'message' => [
                             'from_id' => 1,
@@ -96,20 +95,20 @@ final class NewMessageCallbackHandlerTest extends TestCase
                             'text' => 'Hello!',
                         ],
                     ],
-                ]),
+                ],
             ],
             'No text' => [
-                Convertor::arrayToObjectRecursive([
+                [
                     'object' => [
                         'message' => [
                             'from_id' => 1,
                             'peer_id' => 2,
                         ],
                     ],
-                ]),
+                ],
             ],
             'Invalid text type' => [
-                Convertor::arrayToObjectRecursive([
+                [
                     'object' => [
                         'message' => [
                             'from_id' => 1,
@@ -117,7 +116,7 @@ final class NewMessageCallbackHandlerTest extends TestCase
                             'text' => [],
                         ],
                     ],
-                ]),
+                ],
             ],
         ];
     }
@@ -125,7 +124,7 @@ final class NewMessageCallbackHandlerTest extends TestCase
     /**
      * @dataProvider invalidCallbacks
      */
-    public function testValidation(object $callback): void
+    public function testValidation(array $callback): void
     {
         self::expectException(InvalidCallbackSchema::class);
 

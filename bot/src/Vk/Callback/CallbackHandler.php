@@ -6,5 +6,5 @@ namespace App\Vk\Callback;
 
 interface CallbackHandler
 {
-    public function handle(object $callback): ?string;
+    public function handle(array $callback): ?string;
 }

@@ -16,40 +16,43 @@ class UnionCallbackHandler implements CallbackHandler
     ) {
     }
 
-    public function handle(object $callback): ?string
+    public function handle(array $callback): ?string
     {
         $this->validate($callback);
         $this->checkSecret($callback);
         return $this->runHandler($callback);
     }
 
-    private function validate(object $callback): void
+    /**
+     * @psalm-assert array{type:string,secret:string} $callback
+     */
+    private function validate(array $callback): void
     {
-        if (!isset($callback->type)) {
+        if (!isset($callback['type'])) {
             throw new InvalidCallbackSchema('No type property.');
         }
-        if (!\is_string($callback->type)) {
+        if (!\is_string($callback['type'])) {
             throw new InvalidCallbackSchema('type is not string.');
         }
-        if (!isset($callback->secret)) {
+        if (!isset($callback['secret'])) {
             throw new InvalidCallbackSchema('No secret property.');
         }
-        if (!\is_string($callback->secret)) {
+        if (!\is_string($callback['secret'])) {
             throw new InvalidCallbackSchema('secret is not string.');
         }
     }
 
-    private function checkSecret(object $callback): void
+    private function checkSecret(array $callback): void
     {
-        if ($callback->secret !== $this->secret) {
+        if ($callback['secret'] !== $this->secret) {
             throw new DomainException('Invalid secret.');
         }
     }
 
-    private function runHandler(object $callback): ?string
+    private function runHandler(array $callback): ?string
     {
-        if (isset($this->handlers[(string)$callback->type])) {
-            return $this->handlers[(string)$callback->type]->handle($callback);
+        if (isset($this->handlers[(string)$callback['type']])) {
+            return $this->handlers[(string)$callback['type']]->handle($callback);
         }
         return null;
     }
