@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Platform\Interactor\MessageSender;
 use App\Vk\Callback\CallbackHandler;
 use App\Vk\Callback\ConfirmationCallbackHandler;
 use App\Vk\Callback\NewMessageCallbackHandler;
@@ -83,4 +84,5 @@ return [
 
         return new ApiMessageSender($container->get(VKApiClient::class), $config['vk']['api']['accessToken']);
     },
+    MessageSender::class => static fn (ContainerInterface $container): MessageSender => $container->get(ApiMessageSender::class),
 ];
