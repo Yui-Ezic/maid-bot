@@ -63,7 +63,7 @@ services:
             VK_SECRET: vk_secret
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: vk_confirmation_code
-            VK_ACCESS_TOKEN: vk_acess_token
+            VK_ACCESS_TOKEN: vk_access_token
 
 networks:
     traefik-public:

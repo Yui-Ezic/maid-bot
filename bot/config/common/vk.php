@@ -66,15 +66,6 @@ return [
 
         return new ConfirmationCallbackHandler($config['vk']['api']['confirmationCode'], $config['vk']['groupId']);
     },
-    VKApiClient::class => static function (ContainerInterface $container) {
-        /**
-         * @psalm-suppress MixedAssignment
-         * @var array{vk:array{api:array{version:string}}} $config
-         */
-        $config = $container->get('config');
-
-        return new VKApiClient($config['vk']['api']['version']);
-    },
     ApiMessageSender::class => static function (ContainerInterface $container) {
         /**
          * @psalm-suppress MixedAssignment
