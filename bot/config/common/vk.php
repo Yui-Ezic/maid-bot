@@ -19,7 +19,7 @@ return [
             'groupId' => (int)env('VK_GROUP_ID'),
             'handlers' => [
                 'confirmation' => ConfirmationCallbackHandler::class,
-                'new_message' => NewMessageCallbackHandler::class,
+                'message_new' => NewMessageCallbackHandler::class,
             ],
             'api' => [
                 'version' => '5.131',
