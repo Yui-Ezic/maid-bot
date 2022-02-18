@@ -12,9 +12,10 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 
 return [
     EventDispatcherInterface::class => static fn (ContainerInterface $container): EventDispatcherInterface => $container->get(EventDispatcher::class),
-    ListenerProviderInterface::class => static function (): ListenerProviderInterface {
+    EventDispatcher::class => static fn (ContainerInterface $container): EventDispatcher => new EventDispatcher($container->get(ListenerProviderInterface::class)),
+    ListenerProviderInterface::class => static function (ContainerInterface $container): ListenerProviderInterface {
         $registry = new PrioritizedListenerRegistry();
-        $registry->subscribeTo(NewMessage::class, NewMessageListener::class);
+        $registry->subscribeTo(NewMessage::class, $container->get(NewMessageListener::class));
         return $registry;
     },
 ];
