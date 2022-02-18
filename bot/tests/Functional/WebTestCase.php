@@ -64,8 +64,11 @@ abstract class WebTestCase extends TestCase
 
     protected function vk(): VkApiClientMock
     {
-        /** @var VkApiClientMock */
-        return $this->container()->get(VkApiClient::class);
+        /**
+         * @var VkApiClientMock
+         * @psalm-suppress PossiblyNullReference
+         */
+        return $this->app()->getContainer()->get(VkApiClient::class);
     }
 
     private function container(): ContainerInterface
