@@ -1,6 +1,6 @@
 init: docker-down-clear \
 	docker-pull docker-build docker-up \
-	bot-init
+	bot-clear bot-init
 up: docker-up
 down: docker-down
 restart: down up
@@ -25,6 +25,9 @@ test: bot-test
 lint: bot-lint
 analyze: bot-analyze
 cs-fix: bot-cs-fix
+
+bot-clear:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/*'
 
 bot-init: bot-composer-install
 
