@@ -29,7 +29,10 @@ cs-fix: bot-cs-fix
 bot-clear:
 	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/*'
 
-bot-init: bot-composer-install
+bot-init: bot-composer-install bot-permissions
+
+bot-permissions:
+	docker run --rm -v ${PWD}/api:/app -w /app alpine chmod 777 var/cache
 
 bot-composer-install:
 	docker-compose run --rm bot-php-cli composer install
