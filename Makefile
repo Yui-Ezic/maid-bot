@@ -27,12 +27,12 @@ analyze: bot-analyze
 cs-fix: bot-cs-fix
 
 bot-clear:
-	docker run --rm -v ${PWD}/api:/app -w /app alpine sh -c 'rm -rf var/cache/*'
+	docker run --rm -v ${PWD}/bot:/app -w /app alpine sh -c 'rm -rf var/cache/* var/log/*'
 
 bot-init: bot-composer-install bot-permissions
 
 bot-permissions:
-	docker run --rm -v ${PWD}/api:/app -w /app alpine chmod 777 var/cache
+	docker run --rm -v ${PWD}/bot:/app -w /app alpine chmod 777 var/cache var/log
 
 bot-composer-install:
 	docker-compose run --rm bot-php-cli composer install
