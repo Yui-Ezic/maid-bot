@@ -50,6 +50,7 @@ services:
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: secret
             VK_ACCESS_TOKEN: secret
+            SENTRY_DSN: ''
 
     bot-php-cli:
         build:
@@ -64,6 +65,7 @@ services:
             VK_GROUP_ID: 1
             VK_CONFIRMATION_CODE: vk_confirmation_code
             VK_ACCESS_TOKEN: vk_access_token
+            SENTRY_DSN: ''
 
 networks:
     traefik-public:

@@ -3,10 +3,13 @@
 declare(strict_types=1);
 
 use App\ErrorHandler\LogErrorHandler;
+use App\ErrorHandler\SentryDecorator;
+use App\Sentry;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Interfaces\CallableResolverInterface;
+use Slim\Interfaces\ErrorHandlerInterface;
 use Slim\Middleware\ErrorMiddleware;
 use function App\env;
 
@@ -32,6 +35,10 @@ return [
 
         return $middleware;
     },
+    ErrorHandlerInterface::class => static fn (ContainerInterface $container): ErrorHandlerInterface => new SentryDecorator(
+        $container->get(LogErrorHandler::class),
+        $container->get(Sentry::class)
+    ),
     LogErrorHandler::class => static fn (ContainerInterface $container): LogErrorHandler => new LogErrorHandler(
         $container->get(CallableResolverInterface::class),
         $container->get(ResponseFactoryInterface::class),
