@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Action\Vk;
 
 use App\Http\Response\PlainTextResponse;
+use App\Sentry;
 use App\Vk\Callback\CallbackHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,11 +14,10 @@ use Throwable;
 
 class WebhookHandler implements RequestHandlerInterface
 {
-    private CallbackHandler $callbackHandler;
-
-    public function __construct(CallbackHandler $callbackHandler)
-    {
-        $this->callbackHandler = $callbackHandler;
+    public function __construct(
+        private CallbackHandler $callbackHandler,
+        private Sentry $sentry
+    ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -28,6 +28,7 @@ class WebhookHandler implements RequestHandlerInterface
             try {
                 $result = $this->callbackHandler->handle($callback);
             } catch (Throwable $e) {
+                $this->sentry->capture($e);
                 $result = null;
             }
         }
