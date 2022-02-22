@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notification\Command\Unsubscribe;
 
-use App\Notification\Repository\SubscriptionRepository;
+use App\Notification\Subscription\Repository\SubscriptionRepository;
 use DomainException;
 
 class Handler

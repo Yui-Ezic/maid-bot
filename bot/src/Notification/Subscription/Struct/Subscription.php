@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Notification\Struct;
+namespace App\Notification\Subscription\Struct;
 
 class Subscription
 {

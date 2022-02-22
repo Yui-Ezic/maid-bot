@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Notification\Command\Subscribe;
 
+use App\Notification\Event\Repository\EventRepository;
 use App\Notification\Permission\PermissionChecker;
-use App\Notification\Repository\EventRepository;
-use App\Notification\Repository\SubscriptionRepository;
-use App\Notification\Struct\Subscription;
+use App\Notification\Subscription\Repository\SubscriptionRepository;
+use App\Notification\Subscription\Struct\Subscription;
 use DomainException;
 
 class Handler

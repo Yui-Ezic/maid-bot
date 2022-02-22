@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Notification\Repository;
+namespace App\Notification\Subscription\Repository;
 
-use App\Notification\Struct\Subscription;
+use App\Notification\Subscription\Struct\Subscription;
 
 interface SubscriptionRepository
 {
