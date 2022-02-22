@@ -23,7 +23,7 @@ class MessageNotifier implements Notifier
     public function notify(Notification $notification): void
     {
         $this->initMessageMaker($notification);
-        $this->sendMessagesToRecipients();
+        $this->sendMessageToRecipients();
     }
 
     private function initMessageMaker(Notification $notification): void
@@ -31,11 +31,11 @@ class MessageNotifier implements Notifier
         $this->messageMaker->setNotification($notification);
     }
 
-    private function sendMessagesToRecipients(): void
+    private function sendMessageToRecipients(): void
     {
+        $message = $this->messageMaker->make();
         foreach ($this->recipientChatIds as $chatId) {
-            $message = $this->messageMaker->withChatId($chatId)->make();
-            $this->messageSender->send($message);
+            $this->messageSender->send($chatId, $message);
         }
     }
 }

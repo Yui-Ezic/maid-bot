@@ -13,17 +13,17 @@ class MessageBuilder
     private const TEXT = 'text';
 
     private function __construct(
-        /** @psalm-var array{chatId:string|null, text:string|null} */
+        /** @psalm-var array{text:string|null} */
         private array $properties
     ) {
     }
 
     public function build(): Message
     {
-        if ($this->properties[self::CHAT_ID] === null || $this->properties[self::TEXT] === null) {
-            throw new RuntimeException('ChatId or text is empty.');
+        if ($this->properties[self::TEXT] === null) {
+            throw new RuntimeException('Text is empty.');
         }
-        return new Message($this->properties[self::CHAT_ID], $this->properties[self::TEXT]);
+        return new Message($this->properties[self::TEXT]);
     }
 
     public static function random(): self
@@ -32,16 +32,5 @@ class MessageBuilder
             self::CHAT_ID => uniqid(),
             self::TEXT => uniqid(),
         ]);
-    }
-
-    private function with(string $property, mixed $value): self
-    {
-        $clone = clone $this;
-        /**
-         * @psalm-suppress InvalidPropertyAssignmentValue
-         * @psalm-suppress PropertyTypeCoercion
-         */
-        $clone->properties[$property] = $value;
-        return $clone;
     }
 }

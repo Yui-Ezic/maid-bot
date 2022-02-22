@@ -19,7 +19,7 @@ class NewMessageListener
         $messageText = $message->getMessage()->getText();
         if (mb_strtolower($messageText) === 'hello') {
             $chatId = $message->getMessage()->getChat()->getId();
-            $this->messageSender->send(new Message($chatId, 'world'));
+            $this->messageSender->send($chatId, new Message('world'));
         }
     }
 }

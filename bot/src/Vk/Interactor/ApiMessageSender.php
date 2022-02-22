@@ -16,10 +16,10 @@ class ApiMessageSender implements MessageSender
     ) {
     }
 
-    public function send(Message $message): void
+    public function send(string $chatId, Message $message): void
     {
         $this->api->messages()->send($this->accessToken, [
-            'peer_id' => (int)$message->getChatId(),
+            'peer_id' => (int)$chatId,
             'random_id' => random_int(0, getrandmax()),
             'message' => $message->getText(),
         ]);

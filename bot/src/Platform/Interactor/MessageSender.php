@@ -6,5 +6,5 @@ namespace App\Platform\Interactor;
 
 interface MessageSender
 {
-    public function send(Message $message): void;
+    public function send(string $chatId, Message $message): void;
 }

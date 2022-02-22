@@ -35,7 +35,7 @@ final class NewMessageListenerTest extends TestCase
         $this->getMessageSenderMock()
             ->expects(self::once())
             ->method('send')
-            ->with(new Message($event->getMessage()->getChat()->getId(), 'world'));
+            ->with($event->getMessage()->getChat()->getId(), new Message('world'));
 
         $this->dispatchEvent($event);
     }
