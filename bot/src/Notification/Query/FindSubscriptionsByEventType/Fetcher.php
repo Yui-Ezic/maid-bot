@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Notification\Subscription\Query;
+namespace App\Notification\Query\FindSubscriptionsByEventType;
 
 use App\Notification\Subscription\Struct\Subscription;
 
-interface SubscriptionByEventQuery
+interface Fetcher
 {
     /**
      * @return Subscription[]
      */
-    public function fetch(string $eventType): array;
+    public function fetch(Query $query): array;
 }
