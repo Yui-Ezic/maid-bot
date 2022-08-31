@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Notification\Command\Notify;
 
-use App\Notification\Query\FindSubscriptionsByEventType\Fetcher;
-use App\Notification\Query\FindSubscriptionsByEventType\Query;
+use App\Notification\Query\FindSubscriptionsByEventId\Fetcher;
+use App\Notification\Query\FindSubscriptionsByEventId\Query;
 use App\Notification\Subscription\Struct\Subscription;
 use App\Platform\Interactor\Message;
 use App\Platform\Interactor\MessageSender;
