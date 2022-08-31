@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Notification\Command\Notify;
 
-use App\Notification\Query\FindSubscriptionsByEventId\Fetcher;
-use App\Notification\Query\FindSubscriptionsByEventId\Query;
+use App\Notification\Subscription\Repository\SubscriptionRepository;
 use App\Notification\Subscription\Struct\Subscription;
 use App\Platform\Interactor\Message;
 use App\Platform\Interactor\MessageSender;
@@ -15,7 +14,7 @@ use Throwable;
 class Handler
 {
     public function __construct(
-        private Fetcher $subscriptionQuery,
+        private SubscriptionRepository $subscriptionRepository,
         private MessageSender $messageSender,
         private LoggerInterface $logger
     ) {
@@ -23,7 +22,7 @@ class Handler
 
     public function handler(Command $command): void
     {
-        $subscriptions = $this->getSubscriptionsByEvent($command->eventType);
+        $subscriptions = $this->getSubscriptionsByEvent($command->eventId);
         foreach ($subscriptions as $subscription) {
             $this->notify($subscription, $command->message);
         }
@@ -32,9 +31,9 @@ class Handler
     /**
      * @return Subscription[]
      */
-    private function getSubscriptionsByEvent(string $eventType): array
+    private function getSubscriptionsByEvent(string $eventId): array
     {
-        return $this->subscriptionQuery->fetch(new Query($eventType));
+        return $this->subscriptionRepository->findByEventId($eventId);
     }
 
     private function notify(Subscription $subscription, Message $message): void

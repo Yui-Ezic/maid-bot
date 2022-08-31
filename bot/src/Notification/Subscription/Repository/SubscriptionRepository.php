@@ -12,5 +12,10 @@ interface SubscriptionRepository
 
     public function has(string $id): bool;
 
+    /**
+     * @return Subscription[]
+     */
+    public function findByEventId(string $id): array;
+
     public function remove(string $id): void;
 }

@@ -9,7 +9,7 @@ use App\Platform\Interactor\Message;
 class Command
 {
     public function __construct(
-        public string $eventType,
+        public string $eventId,
         public Message $message
     ) {
     }
