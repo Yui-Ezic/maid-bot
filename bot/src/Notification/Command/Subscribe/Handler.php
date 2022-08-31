@@ -21,7 +21,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        if ($this->isEventNotExist($command->eventType)) {
+        if ($this->isEventNotExist($command->eventId)) {
             throw new DomainException('Event is not exist.');
         }
         $subscription = $this->createSubscription($command);
@@ -31,14 +31,14 @@ class Handler
         $this->persist($subscription);
     }
 
-    private function isEventNotExist(string $eventType): bool
+    private function isEventNotExist(string $eventId): bool
     {
-        return !$this->events->has($eventType);
+        return !$this->events->has($eventId);
     }
 
     private function createSubscription(Command $command): Subscription
     {
-        return new Subscription($command->subscriberId, $command->eventType);
+        return new Subscription($command->subscriberId, $command->eventId);
     }
 
     private function isNotAllowed(Subscription $subscription): bool

@@ -8,7 +8,7 @@ class Subscription
 {
     public function __construct(
         private string $subscriberId,
-        private string $eventType,
+        private string $eventId,
     ) {
     }
 
@@ -19,6 +19,6 @@ class Subscription
 
     public function getEventType(): string
     {
-        return $this->eventType;
+        return $this->eventId;
     }
 }

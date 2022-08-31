@@ -8,7 +8,7 @@ class Command
 {
     public function __construct(
         public string $subscriberId,
-        public string $eventType,
+        public string $eventId,
     ) {
     }
 }
